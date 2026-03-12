@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { PropertiesModule } from './properties/properties.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { AdminModule } from './admin/admin.module';
+import { TestimonialsModule } from './testimonials/testimonials.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AdminModule } from './admin/admin.module';
     PropertiesModule,
     BookingsModule,
     AdminModule,
+    TestimonialsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
