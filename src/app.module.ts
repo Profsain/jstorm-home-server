@@ -9,6 +9,7 @@ import { PropertiesModule } from './properties/properties.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { AdminModule } from './admin/admin.module';
 import { TestimonialsModule } from './testimonials/testimonials.module';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { TestimonialsModule } from './testimonials/testimonials.module';
     BookingsModule,
     AdminModule,
     TestimonialsModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -20,14 +20,38 @@ export class AdminService {
 
     const forSale = allProperties.filter((p) => p.type === 'sale').length;
     const shortlets = allProperties.filter((p) => p.type !== 'sale').length;
-    const totalRevenue = allBookings.reduce((acc, b: any) => acc + (b.totalAmount || 0), 0);
+    
+    // Revenue calculation based on populated propertyId price
+    const totalRevenue = allBookings.reduce((acc, b: any) => {
+      const price = b.propertyId?.price || 0;
+      return acc + price;
+    }, 0);
+
+    // Monthly bookings for the last 6 months
+    const monthlyBookings = [];
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    
+    for (let i = 5; i >= 0; i--) {
+      const date = new Date();
+      date.setMonth(date.getMonth() - i);
+      const month = monthNames[date.getMonth()];
+      const year = date.getFullYear();
+      
+      const count = allBookings.filter(b => {
+        const bDate = new Date((b as any).createdAt);
+        return bDate.getMonth() === date.getMonth() && bDate.getFullYear() === date.getFullYear();
+      }).length;
+      
+      monthlyBookings.push({ month: `${month} ${year}`, count });
+    }
 
     return {
       totalBookings: allBookings.length,
       propertiesForSale: forSale,
       shortlets: shortlets,
-      monthlyRevenue: totalRevenue, // Simplification for now
+      monthlyRevenue: totalRevenue,
       totalUsers: allUsers.length,
+      monthlyBookings,
     };
   }
 }
