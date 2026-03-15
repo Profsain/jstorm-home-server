@@ -152,7 +152,10 @@ export class ChatService {
       },
       {
         type: 'amenities',
-        keywords: ['amenities', 'facilities', 'features', 'what included', "what's included", 'include', 'provide', 'kitchen', 'laundry', 'gym'],
+        keywords: [
+          'amenities', 'facilities', 'features', 'what included', "what's included", 'include', 'provide', 'kitchen', 'laundry', 'gym',
+          'sqft', 'square feet', 'size', 'area', 'how big', 'dimensions', 'space',
+        ],
       },
       {
         type: 'contact',
@@ -259,7 +262,12 @@ export class ChatService {
       msg += `   📍 ${p.location} | 💷 ${priceStr}\n`;
       msg += `   🛏 ${p.bedrooms} bed | 🚿 ${p.bathrooms} bath`;
       if (p.guests) msg += ` | 👥 Up to ${p.guests} guests`;
-      msg += `\n   _${p.shortDescription}_\n\n`;
+      if (p.sqft) msg += ` | 📏 ${p.sqft} sqft`;
+      msg += `\n   _${p.shortDescription}_\n`;
+      if (p.features && p.features.length) {
+        msg += `   ✨ **Key Features:** ${p.features.slice(0, 3).join(', ')}\n`;
+      }
+      msg += `\n`;
     }
     msg += `💬 To book or ask about a specific property, message us on WhatsApp: https://wa.me/${waNumber}`;
     return msg;
@@ -463,11 +471,11 @@ export class ChatService {
       `• 🛎 **Luxury short-stay apartments** — Airbnb & serviced accommodation\n` +
       `• 🏠 **Properties for sale** — from modern townhouses to Victorian detached homes\n\n` +
       `**Our Promise:**\n` +
-      `✨ Beautifully furnished, professionally cleaned spaces\n` +
-      `⚡ Fast, friendly WhatsApp support\n` +
-      `🔒 Safe, secure, and sanitised before every stay\n` +
-      `🕐 Flexible stays — from one night to extended stays\n\n` +
-      `Whether you're visiting for business, leisure, or looking to buy, JStorm Homes has you covered!`
+      `✨ **Premium Stays:** Beautifully furnished, professionally cleaned & managed homes\n` +
+      `⚡ **Quick Support:** Fast, friendly WhatsApp support for all enquiries\n` +
+      `🔒 **Safe & Sanitised:** Professionally sanitised before every guest arrival\n` +
+      `🕐 **Flexible Stays:** From a single night to extended corporate stays\n\n` +
+      `Whether you're visiting for business, leisure, or looking to buy your next home, JStorm Homes provides the finest excellence in Preston!`
     );
   }
 

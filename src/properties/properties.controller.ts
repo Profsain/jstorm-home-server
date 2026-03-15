@@ -1,4 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, UseInterceptors, UploadedFiles } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
 import { PropertiesService } from './properties.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
@@ -6,7 +8,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../users/schemas/user.schema';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('properties')
 @Controller('properties')
@@ -56,5 +58,45 @@ export class PropertiesController {
   @ApiResponse({ status: 200, description: 'The property has been successfully deleted.' })
   remove(@Param('id') id: string) {
     return this.propertiesService.remove(id);
+  }
+
+  @Post(':id/upload-images')
+  @ApiConsumes('multipart/form-data')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.SUPER_ADMIN, UserRole.PROPERTIES_MANAGER)
+  @UseInterceptors(FilesInterceptor('images', 20)) // Increased limit to 20
+  @ApiOperation({ summary: 'Upload images for a property' })
+  @ApiResponse({ status: 200, description: 'Images uploaded successfully.' })
+  async uploadImages(
+    @Param('id') id: string,
+    @UploadedFiles() files: Express.Multer.File[],
+  ) {
+    console.log(`Starting image upload for property ID: ${id}`);
+    console.log(`Number of files received: ${files?.length || 0}`);
+    
+    if (!files || files.length === 0) {
+      console.warn('No files were uploaded');
+      return this.propertiesService.findOne(id);
+    }
+
+    const filePaths = files.map(file => {
+      const randomName = Array(32)
+        .fill(null)
+        .map(() => Math.round(Math.random() * 16).toString(16))
+        .join('');
+      const path = `/uploads/${randomName}${extname(file.originalname)}`;
+      console.log(`Generated path for file: ${path}`);
+      return path;
+    });
+
+    try {
+      const updatedProperty = await this.propertiesService.addImages(id, filePaths);
+      console.log(`Successfully updated property ${id} with ${filePaths.length} new images`);
+      return updatedProperty;
+    } catch (error) {
+      console.error(`Error adding images to property ${id}:`, error.message);
+      throw error;
+    }
   }
 }

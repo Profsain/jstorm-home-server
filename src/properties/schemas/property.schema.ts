@@ -5,6 +5,8 @@ export enum PropertyType {
   AIRBNB = 'airbnb',
   SERVICED = 'serviced',
   SALE = 'sale',
+  SHORTLET = 'shortlet',
+  RENT = 'rent',
 }
 
 @Schema({ timestamps: true })

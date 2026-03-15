@@ -33,9 +33,20 @@ export class PropertiesService {
     return updatedProperty;
   }
 
-  async remove(id: string): Promise<Property> {
-    const deletedProperty = await this.propertyModel.findByIdAndDelete(id).exec();
-    if (!deletedProperty) throw new NotFoundException('Property not found');
-    return deletedProperty;
+  async remove(id: string) {
+    const result = await this.propertyModel.findByIdAndDelete(id).exec();
+    if (!result) {
+      throw new NotFoundException(`Property with ID "${id}" not found`);
+    }
+    return result;
+  }
+
+  async addImages(id: string, imagePaths: string[]) {
+    const property = await this.propertyModel.findById(id).exec();
+    if (!property) {
+      throw new NotFoundException(`Property with ID "${id}" not found`);
+    }
+    property.images = [...(property.images || []), ...imagePaths];
+    return property.save();
   }
 }
