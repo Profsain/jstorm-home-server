@@ -12,7 +12,7 @@ async function bootstrap() {
       'http://localhost:8080',
       'http://localhost:5173',
       'http://localhost:3000',
-      'https://jstormhomes-project.vercel.app', // Add potential production URL
+      'https://jstormhomes.vercel.app', // Add potential production URL
       'https://jstorm-homes-platform.vercel.app'
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
