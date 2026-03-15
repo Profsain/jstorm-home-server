@@ -80,15 +80,7 @@ export class PropertiesController {
       return this.propertiesService.findOne(id);
     }
 
-    const filePaths = files.map(file => {
-      const randomName = Array(32)
-        .fill(null)
-        .map(() => Math.round(Math.random() * 16).toString(16))
-        .join('');
-      const path = `/uploads/${randomName}${extname(file.originalname)}`;
-      console.log(`Generated path for file: ${path}`);
-      return path;
-    });
+    const filePaths = files.map(file => `/uploads/${file.filename}`);
 
     try {
       const updatedProperty = await this.propertiesService.addImages(id, filePaths);
