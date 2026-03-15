@@ -16,4 +16,28 @@ export class UpdateSettingDto {
   @IsString()
   @IsNotEmpty()
   propertiesWhatsapp: string;
+
+  @ApiProperty({ example: 'smtp.gmail.com' })
+  @IsString()
+  @IsOptional()
+  smtpHost?: string;
+
+  @ApiProperty({ example: 587 })
+  @IsOptional()
+  smtpPort?: number;
+
+  @ApiProperty({ example: 'user@example.com' })
+  @IsString()
+  @IsOptional()
+  smtpUser?: string;
+
+  @ApiProperty({ example: 'password' })
+  @IsString()
+  @IsOptional()
+  smtpPass?: string;
+
+  @ApiProperty({ example: 'noreply@example.com' })
+  @IsString()
+  @IsOptional()
+  smtpFrom?: string;
 }

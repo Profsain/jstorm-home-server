@@ -12,6 +12,12 @@ export class Booking extends Document {
   @Prop({ required: true })
   guestName: string;
 
+  @Prop({ required: true })
+  guestEmail: string;
+
+  @Prop({ required: true })
+  guestPhone: string;
+
   @Prop({ required: true, type: Types.ObjectId, ref: 'Property' })
   propertyId: Types.ObjectId;
 
@@ -20,6 +26,9 @@ export class Booking extends Document {
 
   @Prop({ required: true })
   checkOut: string;
+
+  @Prop()
+  specialRequests?: string;
 
   @Prop({ enum: BookingStatus, default: BookingStatus.PENDING })
   status: BookingStatus;

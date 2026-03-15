@@ -45,6 +45,11 @@ export class SettingsService {
       if (updateSettingDto.whatsappNumber) settings.whatsappNumber = updateSettingDto.whatsappNumber;
       settings.shortletWhatsapp = updateSettingDto.shortletWhatsapp;
       settings.propertiesWhatsapp = updateSettingDto.propertiesWhatsapp;
+      if (updateSettingDto.smtpHost) settings.smtpHost = updateSettingDto.smtpHost;
+      if (updateSettingDto.smtpPort) settings.smtpPort = updateSettingDto.smtpPort;
+      if (updateSettingDto.smtpUser) settings.smtpUser = updateSettingDto.smtpUser;
+      if (updateSettingDto.smtpPass) settings.smtpPass = updateSettingDto.smtpPass;
+      if (updateSettingDto.smtpFrom) settings.smtpFrom = updateSettingDto.smtpFrom;
     }
     return settings.save();
   }

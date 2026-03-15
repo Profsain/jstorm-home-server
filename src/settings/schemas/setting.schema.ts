@@ -14,6 +14,21 @@ export class Setting extends Document {
 
   @Prop({ default: '+2348141880667' })
   propertiesWhatsapp: string;
+
+  @Prop()
+  smtpHost: string;
+
+  @Prop({ default: 587 })
+  smtpPort: number;
+
+  @Prop()
+  smtpUser: string;
+
+  @Prop()
+  smtpPass: string;
+
+  @Prop()
+  smtpFrom: string;
 }
 
 export const SettingSchema = SchemaFactory.createForClass(Setting);
