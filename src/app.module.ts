@@ -11,6 +11,7 @@ import { AdminModule } from './admin/admin.module';
 import { TestimonialsModule } from './testimonials/testimonials.module';
 import { SettingsModule } from './settings/settings.module';
 import { MailModule } from './mail/mail.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { MailModule } from './mail/mail.module';
     TestimonialsModule,
     SettingsModule,
     MailModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
