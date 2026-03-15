@@ -13,8 +13,8 @@ export class SettingsService {
     if (!settings) {
       settings = new this.settingModel({
         type: 'settings',
-        whatsappNumber: '+44737015649',
-        shortletWhatsapp: '+44737015649',
+        whatsappNumber: '+44737915649',
+        shortletWhatsapp: '+44737915649',
         propertiesWhatsapp: '+2348141880667',
       });
       await settings.save();
@@ -22,7 +22,7 @@ export class SettingsService {
       // Migrate or initialize if missing
       let needsSave = false;
       if (!settings.shortletWhatsapp) {
-        settings.shortletWhatsapp = '+44737015649';
+        settings.shortletWhatsapp = '+44737915649';
         needsSave = true;
       }
       if (!settings.propertiesWhatsapp) {
