@@ -13,9 +13,23 @@ export class SettingsService {
     if (!settings) {
       settings = new this.settingModel({
         type: 'settings',
-        whatsappNumber: '+2340000000000',
+        whatsappNumber: '+44737015649',
+        shortletWhatsapp: '+44737015649',
+        propertiesWhatsapp: '+2348141880667',
       });
       await settings.save();
+    } else {
+      // Migrate or initialize if missing
+      let needsSave = false;
+      if (!settings.shortletWhatsapp) {
+        settings.shortletWhatsapp = '+44737015649';
+        needsSave = true;
+      }
+      if (!settings.propertiesWhatsapp) {
+        settings.propertiesWhatsapp = '+2348141880667';
+        needsSave = true;
+      }
+      if (needsSave) await settings.save();
     }
     return settings;
   }
@@ -28,7 +42,9 @@ export class SettingsService {
         ...updateSettingDto,
       });
     } else {
-      settings.whatsappNumber = updateSettingDto.whatsappNumber;
+      if (updateSettingDto.whatsappNumber) settings.whatsappNumber = updateSettingDto.whatsappNumber;
+      settings.shortletWhatsapp = updateSettingDto.shortletWhatsapp;
+      settings.propertiesWhatsapp = updateSettingDto.propertiesWhatsapp;
     }
     return settings.save();
   }

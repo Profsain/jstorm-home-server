@@ -6,8 +6,14 @@ export class Setting extends Document {
   @Prop({ required: true, default: 'settings' })
   type: string;
 
-  @Prop({ required: true })
+  @Prop()
   whatsappNumber: string;
+
+  @Prop({ default: '+44737015649' })
+  shortletWhatsapp: string;
+
+  @Prop({ default: '+2348141880667' })
+  propertiesWhatsapp: string;
 }
 
 export const SettingSchema = SchemaFactory.createForClass(Setting);
