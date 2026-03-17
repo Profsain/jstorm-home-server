@@ -50,6 +50,9 @@ export class SettingsService {
       if (updateSettingDto.smtpUser) settings.smtpUser = updateSettingDto.smtpUser;
       if (updateSettingDto.smtpPass) settings.smtpPass = updateSettingDto.smtpPass;
       if (updateSettingDto.smtpFrom) settings.smtpFrom = updateSettingDto.smtpFrom;
+      if (updateSettingDto.facebookUrl) settings.facebookUrl = updateSettingDto.facebookUrl;
+      if (updateSettingDto.instagramUrl) settings.instagramUrl = updateSettingDto.instagramUrl;
+      if (updateSettingDto.tiktokUrl) settings.tiktokUrl = updateSettingDto.tiktokUrl;
     }
     return settings.save();
   }

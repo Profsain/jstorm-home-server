@@ -29,6 +29,15 @@ export class Setting extends Document {
 
   @Prop()
   smtpFrom: string;
+
+  @Prop()
+  facebookUrl: string;
+
+  @Prop()
+  instagramUrl: string;
+
+  @Prop()
+  tiktokUrl: string;
 }
 
 export const SettingSchema = SchemaFactory.createForClass(Setting);

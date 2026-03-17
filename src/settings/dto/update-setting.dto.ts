@@ -40,4 +40,19 @@ export class UpdateSettingDto {
   @IsString()
   @IsOptional()
   smtpFrom?: string;
+
+  @ApiProperty({ example: 'https://facebook.com/jstormhomes' })
+  @IsString()
+  @IsOptional()
+  facebookUrl?: string;
+
+  @ApiProperty({ example: 'https://instagram.com/jstormhomes' })
+  @IsString()
+  @IsOptional()
+  instagramUrl?: string;
+
+  @ApiProperty({ example: 'https://tiktok.com/@jstormhomes' })
+  @IsString()
+  @IsOptional()
+  tiktokUrl?: string;
 }
