@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MulterModule } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 import { PropertiesController } from './properties.controller';
 import { PropertiesService } from './properties.service';
 import { Property, PropertySchema } from './schemas/property.schema';
@@ -12,6 +13,7 @@ import { Property, PropertySchema } from './schemas/property.schema';
     MulterModule.register({
       storage: memoryStorage(),
     }),
+    CloudinaryModule,
   ],
   controllers: [PropertiesController],
   providers: [PropertiesService],
