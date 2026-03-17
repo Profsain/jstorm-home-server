@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
 import { PropertiesService } from './properties.service';
 import { CreatePropertyDto } from './dto/create-property.dto';
 import { UpdatePropertyDto } from './dto/update-property.dto';
@@ -13,7 +14,10 @@ import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiResponse, ApiTags } from '
 @ApiTags('properties')
 @Controller('properties')
 export class PropertiesController {
-  constructor(private readonly propertiesService: PropertiesService) {}
+  constructor(
+    private readonly propertiesService: PropertiesService,
+    private readonly cloudinaryService: CloudinaryService,
+  ) {}
 
   @Post()
   @ApiBearerAuth()
@@ -80,19 +84,16 @@ export class PropertiesController {
       return this.propertiesService.findOne(id);
     }
 
-    // Generate random filenames since we are using memoryStorage
-    const filePaths = files.map(file => {
-      const randomName = Array(32)
-        .fill(null)
-        .map(() => Math.round(Math.random() * 16).toString(16))
-        .join('');
-      const filename = `${randomName}${extname(file.originalname)}`;
-      return `/uploads/${filename}`;
-    });
-
     try {
+      // Upload files to Cloudinary in parallel
+      const uploadPromises = files.map(file => this.cloudinaryService.uploadFile(file));
+      const uploadResults = await Promise.all(uploadPromises);
+      
+      // Extract the secure URLs from Cloudinary results
+      const filePaths = uploadResults.map((result: any) => result.secure_url);
+
       const updatedProperty = await this.propertiesService.addImages(id, filePaths);
-      console.log(`Successfully updated property ${id} with ${filePaths.length} new images`);
+      console.log(`Successfully updated property ${id} with ${filePaths.length} new images on Cloudinary`);
       return updatedProperty;
     } catch (error) {
       console.error(`Error adding images to property ${id}:`, error.message);
